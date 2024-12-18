@@ -1,4 +1,4 @@
-# Phishing para Captura de Senhas do Facebook
+# Phishing para Captura de Senhas do Instagram
 
 ## Ferramentas Necessárias
 
@@ -30,4 +30,4 @@ setoolkit
 ifconfig
 
 # Insira a URL que será clonada
-# > http://www.facebook.com
+# > http://www.instagram.com
