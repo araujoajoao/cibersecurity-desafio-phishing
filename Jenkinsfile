@@ -5,7 +5,6 @@ pipeline {
         stage('Environment Setup') {
             steps {
                 echo 'Setting up Kali Linux environment...'
-                // Example command for environment configuration
                 sh '''
                 # Ensure the environment is updated
                 sudo apt-get update -y
@@ -17,10 +16,28 @@ pipeline {
             }
         }
 
+        stage('Fix Kubernetes Repository') {
+            steps {
+                echo 'Fixing Kubernetes repository issue...'
+                sh '''
+                # Remove outdated Kubernetes repository
+                sudo rm -f /etc/apt/sources.list.d/kubernetes.list
+                
+                # Add the correct repository for Ubuntu
+                echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+                
+                # Add the repository key
+                sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
+                
+                # Update the package index
+                sudo apt-get update
+                '''
+            }
+        }
+
         stage('Verify Tools Installation') {
             steps {
                 echo 'Verifying setoolkit installation...'
-                // Check if setoolkit is installed
                 sh 'which setoolkit || echo "setoolkit not found!"'
             }
         }
