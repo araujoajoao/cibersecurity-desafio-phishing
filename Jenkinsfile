@@ -23,7 +23,10 @@ pipeline {
                 # Remove outdated Kubernetes repository
                 sudo rm -f /etc/apt/sources.list.d/kubernetes.list
                 
-                # Add the correct repository for Ubuntu
+                # Remove any legacy references in sources.list
+                sudo sed -i '/apt.kubernetes.io/d' /etc/apt/sources.list
+                
+                # Add the correct repository for your Ubuntu version
                 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
                 
                 # Add the repository key
